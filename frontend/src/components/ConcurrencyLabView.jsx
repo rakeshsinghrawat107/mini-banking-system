@@ -95,23 +95,23 @@ export default function ConcurrencyLabView({ onExperimentCompleted }) {
           <div className="lab-result-box">
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
               
-              <div style={{ background: 'var(--accent-danger-soft)', border: '1px solid rgba(239, 68, 68, 0.3)', padding: '1rem', borderRadius: 'var(--radius-md)' }}>
-                <div style={{ color: 'var(--accent-danger)', fontWeight: 700, fontSize: '0.85rem' }}>
+              <div style={{ background: 'var(--accent-danger-soft)', border: '1px solid var(--danger-border)', padding: '1rem', borderRadius: 'var(--radius-md)' }}>
+                <div style={{ color: 'var(--danger-text)', fontWeight: 700, fontSize: '0.85rem' }}>
                   Without Mutex Locking (Race Condition Active)
                 </div>
-                <div className="mono" style={{ fontSize: '1.5rem', fontWeight: 700, color: '#fff', marginTop: '0.35rem' }}>
+                <div className="mono" style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--danger-text)', marginTop: '0.35rem' }}>
                   ${parseFloat(raceResult.without_mutex_result).toFixed(2)}
                 </div>
-                <div style={{ color: 'var(--accent-danger)', fontSize: '0.75rem', marginTop: '0.25rem' }}>
+                <div style={{ color: 'var(--danger)', fontSize: '0.75rem', marginTop: '0.25rem' }}>
                   CORRUPTED by lost updates during context switches!
                 </div>
               </div>
 
-              <div style={{ background: 'var(--accent-success-soft)', border: '1px solid rgba(16, 185, 129, 0.3)', padding: '1rem', borderRadius: 'var(--radius-md)' }}>
-                <div style={{ color: 'var(--accent-success)', fontWeight: 700, fontSize: '0.85rem' }}>
+              <div style={{ background: 'var(--accent-success-soft)', border: '1px solid var(--success-border)', padding: '1rem', borderRadius: 'var(--radius-md)' }}>
+                <div style={{ color: 'var(--success-text)', fontWeight: 700, fontSize: '0.85rem' }}>
                   With Account Mutex Locking (std::mutex)
                 </div>
-                <div className="mono" style={{ fontSize: '1.5rem', fontWeight: 700, color: '#fff', marginTop: '0.35rem' }}>
+                <div className="mono" style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--success-text)', marginTop: '0.35rem' }}>
                   ${parseFloat(raceResult.with_mutex_result).toFixed(2)}
                 </div>
                 <div style={{ color: 'var(--accent-success)', fontSize: '0.75rem', marginTop: '0.25rem' }}>
@@ -200,19 +200,19 @@ export default function ConcurrencyLabView({ onExperimentCompleted }) {
 
         {crashResult && (
           <div className="lab-result-box">
-            <div style={{ marginBottom: '0.75rem', color: '#fff', fontWeight: 600 }}>
+            <div style={{ marginBottom: '0.75rem', color: 'var(--text-primary)', fontWeight: 600 }}>
               {crashResult.crash_scenario}
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.75rem', marginBottom: '0.75rem' }}>
-              <div style={{ background: 'var(--bg-card)', padding: '0.75rem', borderRadius: 'var(--radius-sm)' }}>
+              <div style={{ background: '#ffffff', border: '1px solid var(--border-default)', padding: '0.75rem', borderRadius: 'var(--radius-sm)' }}>
                 <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Corrupted Balance Post-Crash</div>
                 <div className="mono" style={{ fontSize: '1.25rem', color: 'var(--accent-danger)', fontWeight: 700 }}>
                   ${crashResult.state_before_recovery.ACC1001_balance.toFixed(2)}
                 </div>
               </div>
 
-              <div style={{ background: 'var(--bg-card)', padding: '0.75rem', borderRadius: 'var(--radius-sm)' }}>
+              <div style={{ background: '#ffffff', border: '1px solid var(--border-default)', padding: '0.75rem', borderRadius: 'var(--radius-sm)' }}>
                 <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Restored Balance via ARIES Undo</div>
                 <div className="mono" style={{ fontSize: '1.25rem', color: 'var(--accent-success)', fontWeight: 700 }}>
                   ${crashResult.state_after_recovery.ACC1001_restored_balance.toFixed(2)}

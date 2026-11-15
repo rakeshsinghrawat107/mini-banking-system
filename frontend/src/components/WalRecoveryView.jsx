@@ -123,7 +123,7 @@ export default function WalRecoveryView({ walLogs, onRunRecovery, onRefresh }) {
                     <td className="mono" style={{ fontWeight: 700, color: 'var(--accent-cyan)' }}>
                       #{log.lsn}
                     </td>
-                    <td className="mono" style={{ fontSize: '0.8rem', color: '#fff' }}>
+                    <td className="mono" style={{ fontSize: '0.8rem', color: 'var(--text-primary)' }}>
                       {log.txn_ref}
                     </td>
                     <td>
@@ -131,13 +131,13 @@ export default function WalRecoveryView({ walLogs, onRunRecovery, onRefresh }) {
                         {log.action}
                       </span>
                     </td>
-                    <td className="mono" style={{ color: log.account_id ? '#fff' : 'var(--text-muted)' }}>
+                    <td className="mono" style={{ color: log.account_id ? 'var(--text-primary)' : 'var(--text-muted)' }}>
                       {log.account_id ? `Account #${log.account_id}` : '—'}
                     </td>
                     <td className="mono" style={{ color: 'var(--text-muted)' }}>
                       {log.old_balance !== null ? `$${parseFloat(log.old_balance).toFixed(2)}` : '—'}
                     </td>
-                    <td className="mono" style={{ fontWeight: 600, color: '#fff' }}>
+                    <td className="mono" style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
                       {log.new_balance !== null ? `$${parseFloat(log.new_balance).toFixed(2)}` : '—'}
                     </td>
                     <td className="mono" style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>

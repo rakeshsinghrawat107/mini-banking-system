@@ -126,7 +126,7 @@ export default function DashboardView({
                       <td>
                         <strong>{acc.holder_name}</strong>
                       </td>
-                      <td className="mono" style={{ fontWeight: 600, color: '#fff' }}>
+                      <td className="mono" style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
                         ${parseFloat(acc.balance).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       </td>
                       <td style={{ textAlign: 'right' }}>
@@ -179,9 +179,9 @@ export default function DashboardView({
                       alignItems: 'center',
                       justifyContent: 'space-between',
                       padding: '0.75rem',
-                      background: 'var(--bg-input)',
+                      background: 'var(--bg-subtle)',
                       borderRadius: 'var(--radius-md)',
-                      border: '1px solid var(--border-subtle)'
+                      border: '1px solid var(--border-default)'
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -200,7 +200,7 @@ export default function DashboardView({
                         {t.type === 'deposit' ? <IconArrowDownLeft size={16} /> : t.type === 'withdraw' ? <IconArrowUpRight size={16} /> : <IconTransfer size={16} />}
                       </div>
                       <div>
-                        <div style={{ fontSize: '0.875rem', fontWeight: 600, color: '#fff' }}>
+                        <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)' }}>
                           {t.type === 'transfer' ? `${t.from_account} -> ${t.to_account}` : `${t.type.toUpperCase()}: ${t.to_account || t.from_account}`}
                         </div>
                         <div className="mono" style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
@@ -209,7 +209,7 @@ export default function DashboardView({
                       </div>
                     </div>
                     <div style={{ textAlign: 'right' }}>
-                      <div className="mono" style={{ fontWeight: 700, fontSize: '0.9rem', color: t.type === 'deposit' ? 'var(--accent-success)' : '#fff' }}>
+                      <div className="mono" style={{ fontWeight: 700, fontSize: '0.9rem', color: t.type === 'deposit' ? 'var(--accent-success)' : 'var(--text-primary)' }}>
                         {t.type === 'deposit' ? '+' : t.type === 'withdraw' ? '-' : ''}${parseFloat(t.amount).toLocaleString('en-US', { minimumFractionDigits: 2 })}
                       </div>
                       <span className={`badge badge-${t.status}`}>{t.status}</span>

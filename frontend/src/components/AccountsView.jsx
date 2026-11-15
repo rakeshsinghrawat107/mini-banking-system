@@ -75,14 +75,14 @@ export default function AccountsView({
                       {acc.account_number}
                     </td>
                     <td>
-                      <div style={{ fontWeight: 600, color: '#fff' }}>{acc.holder_name}</div>
+                      <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{acc.holder_name}</div>
                     </td>
                     <td>
                       <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
                         {acc.email || 'N/A'}
                       </span>
                     </td>
-                    <td className="mono" style={{ fontSize: '1rem', fontWeight: 700, color: '#fff' }}>
+                    <td className="mono" style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)' }}>
                       ${parseFloat(acc.balance).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </td>
                     <td>

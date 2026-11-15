@@ -115,13 +115,13 @@ export default function TeamGuideView() {
               <div
                 key={idx}
                 style={{
-                  background: 'var(--bg-input)',
+                  background: 'var(--bg-subtle)',
                   padding: '1.25rem',
                   borderRadius: 'var(--radius-md)',
-                  border: '1px solid var(--border-subtle)'
+                  border: '1px solid var(--border-default)'
                 }}
               >
-                <div style={{ color: '#fff', fontWeight: 700, fontSize: '0.95rem', marginBottom: '0.45rem' }}>
+                <div style={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.95rem', marginBottom: '0.45rem' }}>
                   Q{idx + 1}: {vq.q}
                 </div>
                 <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', lineHeight: '1.6' }}>

@@ -97,13 +97,13 @@ export default function LedgerView({ transactions, onRefresh, onExportCsv }) {
                         {t.type}
                       </span>
                     </td>
-                    <td className="mono" style={{ color: t.from_account ? '#fff' : 'var(--text-muted)' }}>
+                    <td className="mono" style={{ color: t.from_account ? 'var(--text-primary)' : 'var(--text-muted)' }}>
                       {t.from_account || '—'}
                     </td>
-                    <td className="mono" style={{ color: t.to_account ? '#fff' : 'var(--text-muted)' }}>
+                    <td className="mono" style={{ color: t.to_account ? 'var(--text-primary)' : 'var(--text-muted)' }}>
                       {t.to_account || '—'}
                     </td>
-                    <td className="mono" style={{ fontWeight: 700, color: t.type === 'deposit' ? 'var(--accent-success)' : '#fff' }}>
+                    <td className="mono" style={{ fontWeight: 700, color: t.type === 'deposit' ? 'var(--accent-success)' : 'var(--text-primary)' }}>
                       ${parseFloat(t.amount).toLocaleString('en-US', { minimumFractionDigits: 2 })}
                     </td>
                     <td>

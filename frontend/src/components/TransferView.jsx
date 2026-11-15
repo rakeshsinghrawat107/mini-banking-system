@@ -93,7 +93,7 @@ export default function TransferView({ accounts, onExecuteTransfer, defaultFrom 
                   </select>
                   {senderObj && (
                     <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.35rem' }}>
-                      Available Balance: <strong className="mono" style={{ color: '#fff' }}>${senderBalance.toFixed(2)}</strong>
+                      Available Balance: <strong className="mono" style={{ color: 'var(--text-primary)' }}>${senderBalance.toFixed(2)}</strong>
                     </div>
                   )}
                 </div>
@@ -116,7 +116,7 @@ export default function TransferView({ accounts, onExecuteTransfer, defaultFrom 
                   </select>
                   {receiverObj && (
                     <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.35rem' }}>
-                      Destination Holder: <strong style={{ color: '#fff' }}>{receiverObj.holder_name}</strong>
+                      Destination Holder: <strong style={{ color: 'var(--text-primary)' }}>{receiverObj.holder_name}</strong>
                     </div>
                   )}
                 </div>
@@ -188,7 +188,7 @@ export default function TransferView({ accounts, onExecuteTransfer, defaultFrom 
           <div className="card-body">
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               
-              <div style={{ background: 'var(--bg-input)', padding: '1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+              <div style={{ background: 'var(--bg-subtle)', padding: '1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-default)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-warning)', fontWeight: 600, fontSize: '0.85rem' }}>
                   <IconLock size={16} />
                   <span>Lexicographical Lock Hierarchy (Coffman Condition 4)</span>
@@ -197,17 +197,17 @@ export default function TransferView({ accounts, onExecuteTransfer, defaultFrom 
                   To prevent circular wait deadlocks (Transfer A-&gt;B vs Transfer B-&gt;A), mutex locks are always acquired in strictly sorted alphabetical order:
                 </p>
                 <div className="mono" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginTop: '0.75rem', fontSize: '0.825rem' }}>
-                  <span style={{ background: 'var(--bg-elevated)', padding: '0.35rem 0.65rem', borderRadius: '4px', border: '1px solid var(--border-default)', color: 'var(--accent-cyan)' }}>
+                  <span style={{ background: '#ffffff', padding: '0.35rem 0.65rem', borderRadius: '4px', border: '1px solid var(--border-default)', color: 'var(--teal-700)', fontWeight: 600 }}>
                     1st Lock: {firstLock}
                   </span>
                   <span style={{ color: 'var(--text-muted)' }}>&rarr;</span>
-                  <span style={{ background: 'var(--bg-elevated)', padding: '0.35rem 0.65rem', borderRadius: '4px', border: '1px solid var(--border-default)', color: 'var(--accent-cyan)' }}>
+                  <span style={{ background: '#ffffff', padding: '0.35rem 0.65rem', borderRadius: '4px', border: '1px solid var(--border-default)', color: 'var(--teal-700)', fontWeight: 600 }}>
                     2nd Lock: {secondLock}
                   </span>
                 </div>
               </div>
 
-              <div style={{ background: 'var(--bg-input)', padding: '1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+              <div style={{ background: 'var(--bg-subtle)', padding: '1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-default)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-success)', fontWeight: 600, fontSize: '0.85rem' }}>
                   <IconDatabase size={16} />
                   <span>Write-Ahead Logging (WAL) Sequence</span>

@@ -47,11 +47,11 @@ export default function DepositWithdrawModal({ isOpen, onClose, mode, account, o
         </div>
         <form onSubmit={handleSubmit}>
           <div className="modal-body">
-            <div style={{ background: 'var(--bg-input)', padding: '0.85rem', borderRadius: 'var(--radius-md)', marginBottom: '1.25rem' }}>
+            <div style={{ background: 'var(--bg-subtle)', border: '1px solid var(--border-default)', padding: '0.85rem', borderRadius: 'var(--radius-md)', marginBottom: '1.25rem' }}>
               <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Account Holder</div>
-              <div style={{ fontSize: '1rem', fontWeight: 600, color: '#fff' }}>{account.holder_name}</div>
+              <div style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-primary)' }}>{account.holder_name}</div>
               <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.35rem' }}>Available Balance</div>
-              <div className="mono" style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--accent-primary)' }}>
+              <div className="mono" style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--teal-600)' }}>
                 ${balance.toFixed(2)}
               </div>
             </div>
