@@ -22,7 +22,9 @@ import sqlite3
 import datetime
 import threading
 from typing import Optional, Dict, Any, List
-from urllib.parse import urlparse, parse_qs
+from urllib.parse import urlparse, parse_qs, unquote
+from decimal import Decimal
+import ssl
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request, Response
@@ -49,16 +51,7 @@ class DatabaseManager:
         if self.db_url and self.db_url.startswith("postgresql://"):
             try:
                 self._parse_pg_url(self.db_url)
-                # Test connection
-                import pg8000
-                conn = pg8000.connect(
-                    user=self.pg_config["user"],
-                    password=self.pg_config["password"],
-                    host=self.pg_config["host"],
-                    port=self.pg_config["port"],
-                    database=self.pg_config["database"],
-                    ssl_context=True if self.pg_config.get("ssl", True) else None
-                )
+                conn = self._get_pg_conn()
                 conn.close()
                 self.mode = "postgres"
                 print(f"[Database] Successfully connected to PostgreSQL / Supabase: {self.pg_config['host']}")
@@ -77,8 +70,8 @@ class DatabaseManager:
     def _parse_pg_url(self, url: str):
         u = urlparse(url)
         self.pg_config = {
-            "user": u.username,
-            "password": u.password,
+            "user": unquote(u.username or ""),
+            "password": unquote(u.password or ""),
             "host": u.hostname,
             "port": u.port or 5432,
             "database": u.path.lstrip("/"),
@@ -181,14 +174,21 @@ class DatabaseManager:
 
     def _get_pg_conn(self):
         import pg8000
-        return pg8000.connect(
+        ctx = ssl.create_default_context()
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+        conn = pg8000.connect(
             user=self.pg_config["user"],
             password=self.pg_config["password"],
             host=self.pg_config["host"],
             port=self.pg_config["port"],
             database=self.pg_config["database"],
-            ssl_context=True if self.pg_config.get("ssl", True) else None
+            ssl_context=ctx
         )
+        conn.autocommit = True
+        cur = conn.cursor()
+        cur.execute("SET search_path = banking, public;")
+        return conn
 
     def query(self, sql: str, params: tuple = ()) -> List[Dict[str, Any]]:
         with self._local_lock:
@@ -209,13 +209,23 @@ class DatabaseManager:
                 conn = self._get_pg_conn()
                 try:
                     cur = conn.cursor()
-                    cur.execute(sql, params)
+                    sql_converted = re.sub(r'\$\d+', '%s', sql)
+                    cur.execute(sql_converted, params)
                     if cur.description:
                         cols = [d[0] for d in cur.description]
-                        rows = [dict(zip(cols, r)) for r in cur.fetchall()]
+                        rows = []
+                        for r in cur.fetchall():
+                            cleaned = {}
+                            for k, v in zip(cols, r):
+                                if isinstance(v, Decimal):
+                                    cleaned[k] = float(v)
+                                elif isinstance(v, (datetime.datetime, datetime.date)):
+                                    cleaned[k] = v.strftime("%Y-%m-%d %H:%M:%S")
+                                else:
+                                    cleaned[k] = v
+                            rows.append(cleaned)
                     else:
                         rows = []
-                    conn.commit()
                     return rows
                 finally:
                     conn.close()
