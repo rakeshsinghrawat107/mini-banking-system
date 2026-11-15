@@ -6,3 +6,4 @@ namespace banking {
 void run_server(int port);
 
 } // namespace banking
+

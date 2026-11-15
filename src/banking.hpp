@@ -58,3 +58,4 @@ TransactionRecord transfer(Db& db, const std::string& from_account, const std::s
 std::vector<TransactionRecord> get_transaction_history(Db& db, int limit = 50);
 
 } // namespace banking
+

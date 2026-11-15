@@ -25,3 +25,4 @@ ON CONFLICT (txn_ref) DO NOTHING;
 -- Initial Audit Record
 INSERT INTO audit_log (operator, action, details) VALUES
     ('system', 'init-database', 'Initialized banking schema with 5 demo accounts and starting balances');
+

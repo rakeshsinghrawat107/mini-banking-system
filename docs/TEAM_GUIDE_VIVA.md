@@ -82,3 +82,4 @@
   1. **Write-Ahead Logging:** Balance changes are recorded to WAL with `old_balance` and `new_balance` before modifying the database.
   2. **Analysis Phase:** On restart, it scans the WAL to find uncommitted transactions that never reached `COMMIT`.
   3. **Undo Phase:** For any active/uncommitted transaction, it uses the recorded `old_balance` to roll back the debited account, restoring full data consistency.
+

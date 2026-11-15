@@ -82,3 +82,4 @@ CREATE OR REPLACE VIEW transaction_history AS
     LEFT JOIN accounts fa ON fa.id = t.from_account_id
     LEFT JOIN accounts ta ON ta.id = t.to_account_id
     ORDER BY t.created_at DESC;
+

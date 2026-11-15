@@ -158,3 +158,4 @@ size_t DeadlockManager::get_deadlock_count() const {
 }
 
 } // namespace banking
+

@@ -130,3 +130,4 @@ RecoveryStats run_crash_recovery(Db& db) {
 }
 
 } // namespace banking
+

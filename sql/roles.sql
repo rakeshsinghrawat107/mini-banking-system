@@ -31,3 +31,4 @@ CREATE POLICY bank_service_policy ON accounts
     FOR ALL
     USING (true)
     WITH CHECK (true);
+

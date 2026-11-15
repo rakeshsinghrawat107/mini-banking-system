@@ -59,3 +59,4 @@ void init_database();
 void audit(Db& d, const std::string& op, const std::string& action, const std::string& details = "");
 
 } // namespace banking
+

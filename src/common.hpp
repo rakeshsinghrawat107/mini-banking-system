@@ -15,3 +15,4 @@ struct HttpError : std::runtime_error {
 };
 
 } // namespace banking
+

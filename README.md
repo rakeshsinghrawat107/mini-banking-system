@@ -38,6 +38,18 @@ The **Mini Banking Transaction System** is a high-performance banking server des
 
 ## 3. Quick Start
 
+### Run Full REST Backend & Web Dashboard (Cross-Platform)
+```bash
+# 1. Start the server (serves both API & Frontend SPA on http://localhost:5000)
+python server.py
+
+# 2. (Optional) Run Vite Dev Server with hot reload
+cd frontend
+npm install
+npm run dev
+# Vite runs on: http://localhost:3000 (proxied to backend on 5000)
+```
+
 ### Build & Run (C++ Backend)
 ```bash
 # 1. Compile the server
@@ -67,3 +79,4 @@ export DATABASE_URL='postgresql://postgres.xxx:PASSWORD@aws-0-xx.pooler.supabase
 ```bash
 python verify_system.py
 ```
+

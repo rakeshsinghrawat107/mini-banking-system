@@ -114,3 +114,4 @@ void init_database() {
 }
 
 } // namespace banking
+

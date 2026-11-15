@@ -96,3 +96,4 @@ When the server starts or recovers:
    - Reverts balances using the `old_balance` saved in the WAL record.
    - Appends an `ABORT` record to the WAL.
    - Total money conservation invariant: `SUM(balances)` is 100% restored.
+

@@ -334,3 +334,4 @@ std::vector<TransactionRecord> get_transaction_history(Db& db, int limit) {
 }
 
 } // namespace banking
+
