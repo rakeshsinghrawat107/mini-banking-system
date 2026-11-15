@@ -10,12 +10,16 @@ import LedgerView from './components/LedgerView';
 import WalRecoveryView from './components/WalRecoveryView';
 import ConcurrencyLabView from './components/ConcurrencyLabView';
 import TeamGuideView from './components/TeamGuideView';
+import CustomerPortalView from './components/CustomerPortalView';
 
 import CreateAccountModal from './components/CreateAccountModal';
 import DepositWithdrawModal from './components/DepositWithdrawModal';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [userRole, setUserRole] = useState('admin'); // 'admin' or 'customer'
+  const [selectedAccountNo, setSelectedAccountNo] = useState('ACC1001');
+
   const [sysInfo, setSysInfo] = useState(null);
   const [isLive, setIsLive] = useState(false);
   const [accounts, setAccounts] = useState([]);
@@ -51,20 +55,55 @@ export default function App() {
         setIsLive(false);
       }
 
-      setAccounts(Array.isArray(accs) ? accs : (accs.value || []));
+      const accList = Array.isArray(accs) ? accs : (accs.value || []);
+      setAccounts(accList);
       setTransactions(Array.isArray(txns) ? txns : (txns.value || []));
       setWalLogs(Array.isArray(logs) ? logs : (logs.value || []));
+
+      if (accList.length > 0 && !selectedAccountNo) {
+        setSelectedAccountNo(accList[0].account_number);
+      }
     } catch (err) {
       console.error("Failed to load banking data:", err);
       setIsLive(false);
     }
-  }, []);
+  }, [selectedAccountNo]);
 
   useEffect(() => {
     loadData();
-    const interval = setInterval(loadData, 6000); // Poll every 6 seconds
+    const interval = setInterval(loadData, 6000);
     return () => clearInterval(interval);
   }, [loadData]);
+
+  // CSV Statement Exporter
+  const handleExportCsv = (txnsToExport, filenamePrefix = 'statement') => {
+    if (!txnsToExport || txnsToExport.length === 0) {
+      showNotification('No transactions to export', 'error');
+      return;
+    }
+
+    const headers = ['Transaction Reference', 'Type', 'From Account', 'To Account', 'Amount USD', 'Status', 'Timestamp'];
+    const rows = txnsToExport.map(t => [
+      t.txn_ref,
+      t.type,
+      t.from_account || '',
+      t.to_account || '',
+      t.amount,
+      t.status,
+      t.created_at
+    ]);
+
+    const csvContent = [headers.join(','), ...rows.map(r => r.map(field => `"${field}"`).join(','))].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `${filenamePrefix}_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    showNotification(`Exported ${txnsToExport.length} transactions to CSV`, 'success');
+  };
 
   // Handle Create Account
   const handleCreateAccount = async (payload) => {
@@ -123,6 +162,7 @@ export default function App() {
   };
 
   const selectedAccountForDepWith = accounts.find(a => a.account_number === depWithModal.accountNo);
+  const currentCustomerAccount = accounts.find(a => a.account_number === selectedAccountNo) || accounts[0];
 
   return (
     <div className="app-container">
@@ -131,6 +171,11 @@ export default function App() {
         setActiveTab={setActiveTab}
         sysInfo={sysInfo}
         isLive={isLive}
+        userRole={userRole}
+        setUserRole={setUserRole}
+        selectedAccountNo={selectedAccountNo}
+        setSelectedAccountNo={setSelectedAccountNo}
+        accounts={accounts}
       />
 
       <main className="main-content">
@@ -143,6 +188,22 @@ export default function App() {
           </div>
         )}
 
+        {/* Customer View */}
+        {activeTab === 'customer-portal' && (
+          <CustomerPortalView
+            account={currentCustomerAccount}
+            transactions={transactions}
+            onOpenDeposit={(accNo) => setDepWithModal({ open: true, mode: 'deposit', accountNo: accNo })}
+            onOpenWithdraw={(accNo) => setDepWithModal({ open: true, mode: 'withdraw', accountNo: accNo })}
+            onOpenTransfer={(accNo) => {
+              setTransferDefaultFrom(accNo);
+              setActiveTab('transfer');
+            }}
+            onExportCsv={handleExportCsv}
+          />
+        )}
+
+        {/* Admin Views */}
         {activeTab === 'dashboard' && (
           <DashboardView
             accounts={accounts}
@@ -172,14 +233,17 @@ export default function App() {
           <TransferView
             accounts={accounts}
             onExecuteTransfer={handleTransfer}
-            defaultFrom={transferDefaultFrom}
+            defaultFrom={transferDefaultFrom || (userRole === 'customer' ? currentCustomerAccount?.account_number : '')}
           />
         )}
 
         {activeTab === 'ledger' && (
           <LedgerView
-            transactions={transactions}
+            transactions={userRole === 'customer' 
+              ? transactions.filter(t => t.from_account === currentCustomerAccount?.account_number || t.to_account === currentCustomerAccount?.account_number)
+              : transactions}
             onRefresh={loadData}
+            onExportCsv={handleExportCsv}
           />
         )}
 

@@ -65,18 +65,45 @@ export DATABASE_URL='postgresql://postgres.xxx:PASSWORD@aws-0-xx.pooler.supabase
 
 ### Run Standalone Demonstrations
 ```bash
-# Race condition demo: concurrent balance updates without vs with mutex locks
-./banking --demo-race
+# Native C++ OS Concurrency Demonstrator (Windows & Linux)
+make demo
+./banking_demo
 
-# Deadlock demo: circular wait (A->B vs B->A) with WFG detection + sorted lock fix
-./banking --demo-deadlock
-
-# Crash recovery demo: mid-transfer crash simulation + WAL log replay & rollback
-./banking --demo-crash
+# Or run specific experiments
+./banking_demo --race      # 100 concurrent withdrawals (race condition vs mutex)
+./banking_demo --deadlock  # WFG cycle detection & lexicographical lock ordering
 ```
 
 ### Instant Python Verification Runner
 ```bash
 python verify_system.py
+```
+
+---
+
+## 4. Academic Presentation & Documentation Deliverables
+
+All presentation slides and comprehensive evaluation reports are pre-compiled and available in `docs/`:
+* **PowerPoint Presentation Deck (.pptx):** [docs/Mini_Banking_System_Viva_Presentation.pptx](docs/Mini_Banking_System_Viva_Presentation.pptx)
+* **Formal Project Report (.pdf):** [docs/Project_Report_Mini_Banking_System.pdf](docs/Project_Report_Mini_Banking_System.pdf)
+* **Team Responsibilities & Viva Q&A:** [docs/TEAM_GUIDE_VIVA.md](docs/TEAM_GUIDE_VIVA.md)
+* **Detailed System Architecture:** [docs/SYSTEM_DESIGN.md](docs/SYSTEM_DESIGN.md)
+
+---
+
+## 5. Cloud & Container Deployment
+
+### 1-Click Render Cloud Deployment
+* Configuration file: `render.yaml`
+* Connect your GitHub repository to [Render.com](https://render.com) — it will automatically install dependencies, build the frontend SPA, and host the live server!
+
+### 1-Click Vercel Frontend Deployment
+* Configuration file: `frontend/vercel.json`
+* Deploy `frontend/` to Vercel with `VITE_API_URL` set to your live backend URL.
+
+### Docker Compose
+```bash
+# Spin up both PostgreSQL 16 and Mini Banking App
+docker compose up --build
 ```
 

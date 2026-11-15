@@ -49,7 +49,10 @@ demo-crash: banking
 	./banking --demo-crash
 
 clean:
-	rm -rf build banking banking.exe wal.log
+	rm -rf build banking banking.exe banking_demo banking_demo.exe wal.log
+
+demo:
+	$(CXX) -std=c++17 -O2 -Isrc -Ithird_party src/demo_main.cpp src/deadlock.cpp -o banking_demo$(if $(filter Windows_NT,$(OS)),.exe,) -pthread
 
 -include build/*.d
 .PHONY: all run init demo-race demo-deadlock demo-crash clean

@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: mini-banking-system
+    env: python
+    buildCommand: "pip install -r requirements.txt && cd frontend && npm install && npm run build && cd .."
+    startCommand: "python server.py"
+    plan: free
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: BANK_TZ
+        value: Asia/Kolkata
+      - key: DATABASE_URL
+        sync: false

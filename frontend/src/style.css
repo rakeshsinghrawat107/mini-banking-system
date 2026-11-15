@@ -720,10 +720,23 @@ body {
   border-radius: var(--radius-sm);
 }
 
+/* Mobile Drawer & Hamburger */
+.mobile-drawer {
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border-subtle);
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
 /* Responsive Breakpoints */
 @media (max-width: 900px) {
   .nav-links {
-    display: none;
+    display: none !important;
+  }
+  .mobile-hamburger {
+    display: inline-flex !important;
   }
   .navbar-inner {
     padding: 0 1rem;

@@ -7,7 +7,7 @@ import {
   IconRefreshCw
 } from './Icons';
 
-export default function LedgerView({ transactions, onRefresh }) {
+export default function LedgerView({ transactions, onRefresh, onExportCsv }) {
   const [filterType, setFilterType] = useState('all');
   const [search, setSearch] = useState('');
 
@@ -28,6 +28,12 @@ export default function LedgerView({ transactions, onRefresh }) {
           <p>Audited chronological record of all monetary events, ACID commits, and crash-rollback operations.</p>
         </div>
         <div className="header-actions">
+          {onExportCsv && (
+            <button className="btn btn-secondary" onClick={() => onExportCsv(filtered, 'all_transactions')}>
+              <IconFileText size={16} />
+              <span>Export CSV</span>
+            </button>
+          )}
           <button className="btn btn-secondary" onClick={onRefresh}>
             <IconRefreshCw size={16} />
             <span>Refresh Ledger</span>
